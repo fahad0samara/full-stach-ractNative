@@ -11,12 +11,14 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Login = () => {
+
+const Register = () => {
   const [email, setemail] = React.useState("");
+  const [name, setname] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState();
@@ -26,7 +28,7 @@ const Login = () => {
   const navigation = useNavigation();
 
   // Log IN
-  const login = async () => {
+  const register = async () => {
     //    "https://firstauth.azurewebsites.net/auth/login",
     if (
       // if the email not valid
@@ -40,25 +42,30 @@ const Login = () => {
       setLoading(true);
 
       setLoading(true);
-      const user = {email, password};
+      const user = {name, email, password};
       try {
         const response = await axios.post(
-          "https://firstauth.azurewebsites.net/auth/login",
+          "https://firstauth.azurewebsites.net/auth/register",
           user
-        );
-        await AsyncStorage.setItem("auth",
-          JSON.stringify(response.data),
-          alert("Login Successful")
-        );
-       
+          );
+          await AsyncStorage.setItem("auth",
+              JSON.stringify(response.data),
+              alert("You have successfully registered, please login to continue")
+           
+            
+
+                );
+          
+          
         console.log(response.data);
         settoken(response.data.token);
         setuser(response.data.user);
         setisConnected(true);
         setLoading(false);
-        navigation.navigate("Home");
-
-        console.log(response.data.token, "token");
+        navigation.navigate("Account");
+        console.log("====================================");
+        console.log("user", user);
+        console.log("====================================");
 
         setLoading(false);
       } catch (error) {
@@ -77,19 +84,23 @@ const Login = () => {
         }, 1000);
       }
     }
-  };
-
-  React.useEffect(() => {
-    const check = async () => {
-      const token = await AsyncStorage.getItem("auth");
-      if (token) {
-        navigation.navigate("Account");
-      }
     };
-    check();
-  }, []);
+    React.useEffect(
+        () => {
+            const checkAuth = async () => {
+                const auth = await AsyncStorage.getItem("auth");
+                if (auth) {
+                    const { token, user } = JSON.parse(auth);
+                    settoken(token);
+                    setuser(user);
+                    setisConnected(true);
+                }
+            };
+            checkAuth();
+        },
+        [isConnected]
+    );
 
-   
 
   return (
     // loading
@@ -144,10 +155,10 @@ const Login = () => {
 
           <Text style={styles.salutStevenText}>
             <Text style={styles.welcome}>
-              welcome
+              Welcome to{"\n"}
               {"\n"}
             </Text>
-            <Text style={styles.Back}>Back</Text>
+            <Text style={styles.Back}>our blog</Text>
           </Text>
           {
             // TextInput for email and password
@@ -158,10 +169,9 @@ const Login = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 20,
+              marginTop: 10,
             }}
-            >
-              
+          >
             <TextInput
               style={{
                 position: "absolute",
@@ -176,13 +186,62 @@ const Login = () => {
                 backgroundColor: "#ccbee3",
 
                 borderStyle: "dashed",
-                borderColor: "#ccbee3",
+                borderColor: "#000",
                 borderWidth: 2,
                 overflow: "hidden",
               }}
-              placeholder="Email"
+              placeholder="
+                              your Name"
+              onChangeText={text => setname(text)}
+              value={name}
+              keyboardType="email-address"
+            />
+            {
+              // name
+            }
+
+            <Ionicons
+              name="person"
+              size={26}
+              style={{
+                position: "absolute",
+                top: 410,
+                left: 40,
+              }}
+              color={"#fff"}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginTop: 60,
+            }}
+          >
+            <TextInput
+              style={{
+                position: "absolute",
+                top: 400,
+
+                left: 30,
+
+                elevation: 5,
+                paddingLeft: 40,
+                width: 300,
+                height: 50,
+                borderRadius: 25,
+                backgroundColor: "#ccbee3",
+
+                borderStyle: "dashed",
+                borderColor: "#000",
+                borderWidth: 2,
+                overflow: "hidden",
+              }}
+              placeholder="Password"
               onChangeText={text => setemail(text)}
               value={email}
+              secureTextEntry={true}
               keyboardType="email-address"
             />
             <Ionicons
@@ -201,17 +260,16 @@ const Login = () => {
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              marginTop: 80,
+              marginTop: 15,
             }}
           >
             <TextInput
               style={{
                 position: "absolute",
-                top: 400,
-
+                top: 450,
+                paddingLeft: -10,
                 left: 30,
 
-                elevation: 5,
                 paddingLeft: 40,
                 width: 300,
                 height: 50,
@@ -219,14 +277,13 @@ const Login = () => {
                 backgroundColor: "#ccbee3",
 
                 borderStyle: "dashed",
-                borderColor: "#ccbee3",
+                borderColor: "#000",
                 borderWidth: 2,
                 overflow: "hidden",
               }}
-              placeholder="Password"
+              placeholder="password"
               onChangeText={text => setpassword(text)}
               value={password}
-              secureTextEntry={true}
               autoComplete="password"
             />
             <Ionicons
@@ -234,14 +291,14 @@ const Login = () => {
               size={26}
               style={{
                 position: "absolute",
-                top: 410,
+                top: 460,
                 left: 40,
               }}
               color={"#fff"}
             />
           </View>
           <TouchableOpacity
-            onPress={() => login()}
+            onPress={() => register()}
             style={{
               position: "absolute",
               shadowColor: "#000",
@@ -254,7 +311,7 @@ const Login = () => {
               shadowRadius: 2,
               elevation: 8,
 
-              top: 570,
+              top: 600,
 
               marginHorizontal: "15%",
               borderRadius: 38,
@@ -277,13 +334,13 @@ const Login = () => {
                 fontWeight: "bold",
               }}
             >
-              Log IN
+              Register
             </Text>
           </TouchableOpacity>
           <View
             style={{
               position: "absolute",
-              top: 640,
+              top: 660,
               marginHorizontal: "25%",
 
               alignItems: "center",
@@ -296,11 +353,9 @@ const Login = () => {
                 fontSize: 15,
               }}
             >
-              Don't have an account?
+              Already have an account?
             </Text>
-              <TouchableOpacity
-                onPress={() => navigation.navigate("Register")}
-              >
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
               <Text
                 style={{
                   color: "#000",
@@ -308,8 +363,7 @@ const Login = () => {
                   fontWeight: "bold",
                 }}
               >
-                
-                Sign Up
+                Login
               </Text>
             </TouchableOpacity>
           </View>
@@ -474,4 +528,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+export default Register;
