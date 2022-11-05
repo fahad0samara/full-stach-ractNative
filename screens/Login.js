@@ -14,15 +14,15 @@ import * as Progress from "react-native-progress";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useLogIN } from "../ContextLog";
 
 const Login = () => {
   const [email, setemail] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState();
-  const [token, settoken] = React.useState("");
-  const [user, setuser] = React.useState("");
-  const [isConnected, setisConnected] = React.useState(false);
+  const {setisLogin}=useLogIN()
+  
   const navigation = useNavigation();
 
   // Log IN
@@ -46,17 +46,13 @@ const Login = () => {
           "https://firstauth.azurewebsites.net/auth/login",
           user
         );
-        await AsyncStorage.setItem("auth",
-          JSON.stringify(response.data),
-          alert("Login Successful")
-        );
+      
+        
+        setisLogin(true)
        
-        console.log(response.data);
-        settoken(response.data.token);
-        setuser(response.data.user);
-        setisConnected(true);
-        setLoading(false);
-        navigation.navigate("Home");
+        
+     
+  
 
         console.log(response.data.token, "token");
 

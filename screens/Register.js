@@ -62,7 +62,7 @@ const Register = () => {
         setuser(response.data.user);
         setisConnected(true);
         setLoading(false);
-        navigation.navigate("Account");
+        navigation.navigate("UplodImage");
         console.log("====================================");
         console.log("user", user);
         console.log("====================================");
