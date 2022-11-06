@@ -21,7 +21,7 @@ const Login = () => {
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState();
-  const {setisLogin}=useLogIN()
+  const {setLog, setProfile} = useLogIN();
   
   const navigation = useNavigation();
 
@@ -38,59 +38,61 @@ const Login = () => {
       setError("Please fill in all fields");
     } else {
       setLoading(true);
-
-      setLoading(true);
       const user = {email, password};
       try {
         const response = await axios.post(
           "https://firstauth.azurewebsites.net/auth/login",
           user
         );
-      
-        
-        setisLogin(true)
-       
-        
-     
-  
+        setLoading(false);
+        console.log(error.response);
+        console.log('====================================');
+        console.log(response.data.mango);
+        console.log('====================================');
 
-        console.log(response.data.token, "token");
+        setLog(true);
+        setProfile(response.data.mango);
+
+
 
         setLoading(false);
       } catch (error) {
-        setTimeout(() => {
+        console.log(error.response.data);
+     
+        setLoading(false);
+         setError(error.response.data);
+      
           setTimeout(
             () => setError(""),
-
-            3000,
-
-            setError(error.response.data)
+            3000
           );
 
-          setLoading(false);
+    
 
-          setError(error.response.data);
-        }, 1000);
+        
+
+        
+       
       }
     }
   };
 
-  React.useEffect(() => {
-    const check = async () => {
-      const token = await AsyncStorage.getItem("auth");
-      if (token) {
-        navigation.navigate("Account");
-      }
-    };
-    check();
-  }, []);
+  // React.useEffect(() => {
+  //   const check = async () => {
+  //     const token = await AsyncStorage.getItem("auth");
+  //     if (token) {
+  //       navigation.navigate("Account");
+  //     }
+  //   };
+  //   check();
+  // }, []);
 
    
 
   return (
     // loading
-    <>
-      {loading ? (
+   
+      loading ? 
         <View
           style={{
             flex: 1,
@@ -122,7 +124,7 @@ const Login = () => {
             Loading...
           </Text>
         </View>
-      ) : (
+       : 
         <View style={styles.loginView}>
           <View style={styles.rectangleView} />
 
@@ -309,9 +311,7 @@ const Login = () => {
               </Text>
             </TouchableOpacity>
           </View>
-          {
-            // Error message
-          }
+     
           {error ? (
             <View
               style={{
@@ -335,8 +335,8 @@ const Login = () => {
             </View>
           ) : null}
         </View>
-      )}
-    </>
+      
+ 
   );
 };
 

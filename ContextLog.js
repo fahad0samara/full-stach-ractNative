@@ -1,21 +1,20 @@
-import react,{ useContext } from "react";
+import react, {useContext, useState, createContext} from "react";
 
-import {useState} from "react";
-import { createContext } from "react";
   const ContextLog = createContext();
 const LogCheck = ({children}) => {
 
 
-  const {isLogin, setisLogin} = useState(false);
-  const {isLogout, setisLogout} = useState(false);
+  const [log, setLog] = useState(false);
+  const [profile, setProfile]=useState({})
+
 
   return (
     <ContextLog.Provider
       value={{
-        isLogin,
-        setisLogin,
-        isLogout,
-        setisLogout,
+        log,
+        setLog,
+        profile,
+        setProfile
       }}
     >
       {children}

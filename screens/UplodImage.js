@@ -1,13 +1,16 @@
 import React, {useState} from "react";
 import {View, StyleSheet, TouchableOpacity, Text, Image} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-import {StackActions} from "@react-navigation/native";
 
+import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-
+import * as Progress from "react-native-progress";
 const UplodImage = props => {
   const [profileImage, setProfileImage] = useState("");
-  const [progress, setProgress] = useState(0);
+;
+  const [loading, isLoading] = useState();
+
+  const navigation = useNavigation();
 
   const openImageLibrary = async () => {
     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -33,6 +36,7 @@ const UplodImage = props => {
     });
 
     try {
+      isLoading(true);
       const res = await axios.post(
         "https://firstauth.azurewebsites.net/auth/upload",
 
@@ -46,13 +50,66 @@ ilXNLmcQldE-SHkc`,
           },
         }
       );
+      isLoading(false);
       console.log(res.data);
-    } catch (error) {
-      console.log(error.message);
+     
+      navigation.navigate(
+          
+        "Account",
+      )
+
+
+
+        
+       
     }
+
+    catch (error) {
+      console.log(error);
+    }
+
+
+      
+    
+
+        
+      
+  
   };
 
-  return (
+  return loading ? (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#fff",
+      }}
+    >
+      <Progress.Circle
+        size={100}
+        indeterminate={true}
+        color="#745f9a"
+        borderWidth={0}
+        thickness={
+          4 // The thickness of the circle
+        }
+      />
+
+      <Text
+        style={{
+          fontSize: 40,
+          marginTop: 4,
+          fontWeight: "600",
+
+          color: "#745f9a",
+          textAlign: "left",
+        }}
+      >
+        Loading...
+      </Text>
+    </View>
+  ) : (
     <View style={styles.container}>
       <View>
         <TouchableOpacity

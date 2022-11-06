@@ -14,6 +14,7 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {View, Text, Pressable, TouchableOpacity} from "react-native";
 import LogCheck from "./ContextLog";
 import UplodImage from "./screens/UplodImage";
+import StackNav from "./navgtion/StackNav";
 
 const App = () => {
   const [hideSplashScreen, setHideSplashScreen] = React.useState(false);
@@ -23,7 +24,7 @@ const App = () => {
   React.useEffect(() => {
     setTimeout(() => {
       setHideSplashScreen(true);
-    }, 1000);
+    }, 5000);
   }, []);
 
   return (
@@ -31,39 +32,7 @@ const App = () => {
       <LogCheck>
         <NavigationContainer>
           {hideSplashScreen ? (
-            <Stack.Navigator screenOptions={{headerShown: false}}>
-              <Stack.Screen
-                name="Login"
-                component={Login}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Register"
-                component={Register}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Home"
-                component={Home}
-                options={{headerShown: false}}
-              />
-
-              <Stack.Screen
-                name="Connect"
-                component={Connect}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="UplodImage"
-                component={UplodImage}
-                options={{headerShown: false}}
-              />
-              <Stack.Screen
-                name="Account"
-                component={Account}
-                options={{headerShown: false}}
-              />
-            </Stack.Navigator>
+         <StackNav/>
           ) : (
             <SplashScreen />
           )}

@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     top: 85,
     left: 38,
     fontSize: 30,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#473a5f",
     textAlign: "left",
     display: "flex",
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     top: 500,
     left: 38,
     fontSize: 24,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#473a5f",
     textAlign: "left",
     display: "flex",
@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
     top: 310,
     left: 363,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
     left: 363,
     fontSize: 12,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     top: 307,
     left: 208,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -303,7 +303,7 @@ const styles = StyleSheet.create({
     left: 208,
     fontSize: 12,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -330,7 +330,7 @@ const styles = StyleSheet.create({
     top: 307,
     left: 53,
     fontSize: 12,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
     left: 53,
     fontSize: 12,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
     display: "flex",
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#000",
     textAlign: "left",
   },
@@ -404,7 +404,7 @@ const styles = StyleSheet.create({
     left: 1,
     fontSize: 16,
     textTransform: "capitalize",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#ccbee3",
     textAlign: "left",
   },
@@ -442,7 +442,7 @@ const styles = StyleSheet.create({
     top: 770,
     left: 145,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
   },
@@ -451,7 +451,7 @@ const styles = StyleSheet.create({
     top: 557,
     left: 102,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#000",
     textAlign: "left",
   },
@@ -461,7 +461,7 @@ const styles = StyleSheet.create({
     left: 103,
     fontSize: 16,
     textTransform: "capitalize",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#ccbee3",
     textAlign: "left",
   },
@@ -478,7 +478,7 @@ const styles = StyleSheet.create({
     top: 628,
     left: 102,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#000",
     textAlign: "left",
   },
@@ -488,7 +488,7 @@ const styles = StyleSheet.create({
     left: 103,
     fontSize: 16,
     textTransform: "capitalize",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#ccbee3",
     textAlign: "left",
   },
@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     top: 699,
     left: 102,
     fontSize: 20,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#000",
     textAlign: "left",
   },
@@ -515,7 +515,7 @@ const styles = StyleSheet.create({
     left: 103,
     fontSize: 16,
     textTransform: "capitalize",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#ccbee3",
     textAlign: "left",
   },

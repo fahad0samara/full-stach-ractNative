@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     position: "relative",
     fontSize: 18,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
   },
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     position: "relative",
     fontSize: 18,
     fontWeight: "600",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#745f9a",
     textAlign: "left",
   },
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textDecoration: "underline",
     fontWeight: "500",
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
   },
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     top: 155,
     left: 52,
     fontSize: 30,
-    fontFamily: "SF Pro Rounded",
+  
     color: "#fff",
     textAlign: "left",
   },

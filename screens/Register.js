@@ -48,14 +48,7 @@ const Register = () => {
           "https://firstauth.azurewebsites.net/auth/register",
           user
           );
-          await AsyncStorage.setItem("auth",
-              JSON.stringify(response.data),
-              alert("You have successfully registered, please login to continue")
-           
-            
-
-                );
-          
+        
           
         console.log(response.data);
         settoken(response.data.token);
