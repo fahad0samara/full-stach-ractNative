@@ -16,7 +16,9 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useLogIN } from "../ContextLog";
 
-const Login = () => {
+const Login = ({ route }) => {
+ 
+
   const [email, setemail] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
@@ -60,7 +62,7 @@ const Login = () => {
         console.log(error.response.data);
      
         setLoading(false);
-         setError(error.response.data);
+       
       
           setTimeout(
             () => setError(""),

@@ -1,13 +1,14 @@
 import React, {useState} from "react";
 import {View, StyleSheet, TouchableOpacity, Text, Image} from "react-native";
 import * as ImagePicker from "expo-image-picker";
-
-import { useNavigation } from "@react-navigation/native";
+import {StackActions} from "@react-navigation/native";
+import {useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-const UplodImage = props => {
+const UplodImage = ({route}) => {
+  const {token} = route.params;
   const [profileImage, setProfileImage] = useState("");
-;
+
   const [loading, isLoading] = useState();
 
   const navigation = useNavigation();
@@ -45,36 +46,20 @@ const UplodImage = props => {
           headers: {
             Accept: "application/json",
             "Content-Type": "multipart/form-data",
-            authorization: `JWT eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MzYyYTg5ODgzMjU2MDk3MGU4M2U0ODMiLCJpYXQiOjE2Njc2NTkxMzl9.mQxpnfULEFBDGw4PxeJquDCxS4e
-ilXNLmcQldE-SHkc`,
+            authorization: `JWT ${token}`,
           },
         }
       );
       isLoading(false);
       console.log(res.data);
-     
-      navigation.navigate(
-          
-        "Account",
-      )
-
-
-
-        
-       
-    }
-
-    catch (error) {
+      navigation.dispatch(StackActions.replace("Home"));
+    } catch (error) {
+       isLoading(false);
+      console.log(error.data);
+      console.log("====================================");
       console.log(error);
+      console.log("====================================");
     }
-
-
-      
-    
-
-        
-      
-  
   };
 
   return loading ? (

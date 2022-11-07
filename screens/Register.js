@@ -1,4 +1,5 @@
 import * as React from "react";
+import {StackActions} from "@react-navigation/native";
 import {
   StyleSheet,
   View,
@@ -12,9 +13,8 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 import * as Progress from "react-native-progress";
 import {useNavigation} from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 const Register = () => {
   const [email, setemail] = React.useState("");
@@ -22,9 +22,7 @@ const Register = () => {
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState();
-  const [token, settoken] = React.useState("");
-  const [user, setuser] = React.useState("");
-  const [isConnected, setisConnected] = React.useState(false);
+
   const navigation = useNavigation();
 
   // Log IN
@@ -47,53 +45,37 @@ const Register = () => {
         const response = await axios.post(
           "https://firstauth.azurewebsites.net/auth/register",
           user
+        );
+  
+          const SingIN = await axios.post(
+            "https://firstauth.azurewebsites.net/auth/login",
+            {
+              email,
+              password,
+            }
           );
-        
-          
-        console.log(response.data);
-        settoken(response.data.token);
-        setuser(response.data.user);
-        setisConnected(true);
-        setLoading(false);
-        navigation.navigate("UplodImage");
-        console.log("====================================");
-        console.log("user", user);
-        console.log("====================================");
-
-        setLoading(false);
-      } catch (error) {
-        setTimeout(() => {
-          setTimeout(
-            () => setError(""),
-
-            3000,
-
-            setError(error.response.data)
+          navigation.dispatch(
+            StackActions.replace("UplodImage", {
+              token: SingIN.data.token,
+            })
           );
+          console.log("====================================");
+          console.log("ttttttt");
+          console.log("====================================");
+          console.log(response.data);
 
           setLoading(false);
+        }
+       catch (error) {
+        setLoading(false);
+        console.log(error);
+        setError(error.response.data.message);
+        console.log(error.response.data);
 
-          setError(error.response.data);
-        }, 1000);
+        console.log(error.response.data.message, "2");
       }
     }
-    };
-    React.useEffect(
-        () => {
-            const checkAuth = async () => {
-                const auth = await AsyncStorage.getItem("auth");
-                if (auth) {
-                    const { token, user } = JSON.parse(auth);
-                    settoken(token);
-                    setuser(user);
-                    setisConnected(true);
-                }
-            };
-            checkAuth();
-        },
-        [isConnected]
-    );
-
+  };
 
   return (
     // loading
