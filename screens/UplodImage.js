@@ -8,6 +8,7 @@ import * as Progress from "react-native-progress";
 const UplodImage = ({route}) => {
   const {token} = route.params;
   const [profileImage, setProfileImage] = useState("");
+  const [progress, setProgress] = useState(0);
 
   const [loading, isLoading] = useState();
 
@@ -37,7 +38,7 @@ const UplodImage = ({route}) => {
     });
 
     try {
-      isLoading(true);
+      
       const res = await axios.post(
         "https://firstauth.azurewebsites.net/auth/upload",
 
@@ -48,13 +49,31 @@ const UplodImage = ({route}) => {
             "Content-Type": "multipart/form-data",
             authorization: `JWT ${token}`,
           },
+          onUploadProgress: ({ loaded, total }) => {
+            console.log(loaded / total);
+            setProgress(loaded / total);
+
+
+          }
+
         }
+            
+            
+            
+            
+            
+            
+            
+            
+             
+          
+        
       );
-      isLoading(false);
+    
       console.log(res.data);
       navigation.dispatch(StackActions.replace("Home"));
     } catch (error) {
-       isLoading(false);
+      
       console.log(error.data);
       console.log("====================================");
       console.log(error);
@@ -62,7 +81,7 @@ const UplodImage = ({route}) => {
     }
   };
 
-  return loading ? (
+  return progress  ? (
     <View
       style={{
         flex: 1,
@@ -81,18 +100,7 @@ const UplodImage = ({route}) => {
         }
       />
 
-      <Text
-        style={{
-          fontSize: 40,
-          marginTop: 4,
-          fontWeight: "600",
-
-          color: "#745f9a",
-          textAlign: "left",
-        }}
-      >
-        Loading...
-      </Text>
+     
     </View>
   ) : (
     <View style={styles.container}>

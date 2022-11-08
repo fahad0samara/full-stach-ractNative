@@ -15,6 +15,7 @@ import * as Progress from "react-native-progress";
 import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import APPloader from "./APPloader";
 
 const Register = () => {
   const [email, setemail] = React.useState("");
@@ -80,39 +81,8 @@ const Register = () => {
   return (
     // loading
     <>
-      {loading ? (
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-          }}
-        >
-          <Progress.Circle
-            size={100}
-            indeterminate={true}
-            color="#745f9a"
-            borderWidth={0}
-            thickness={
-              4 // The thickness of the circle
-            }
-          />
-
-          <Text
-            style={{
-              fontSize: 40,
-              marginTop: 4,
-              fontWeight: "600",
-
-              color: "#745f9a",
-              textAlign: "left",
-            }}
-          >
-            Loading...
-          </Text>
-        </View>
-      ) : (
+     
+  
         <View style={styles.loginView}>
           <View style={styles.rectangleView} />
 
@@ -368,7 +338,8 @@ const Register = () => {
             </View>
           ) : null}
         </View>
-      )}
+        {   loading ?     <APPloader /> : null}
+   
     </>
   );
 };
