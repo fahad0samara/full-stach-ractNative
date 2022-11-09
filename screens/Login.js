@@ -48,27 +48,17 @@ const Login = ({ route }) => {
           user
         );
         setLoading(false);
-        console.log(error.response);
-        console.log('====================================');
-        console.log(response.data.mango);
-        console.log('====================================');
-
         setLog(true);
         setProfile(response.data.mango);
 
-
-
       } catch (error) {
-        console.log(error.response.data);
-        setError(error.response.data)
+        console.log(error.response);
+        setError(error.response)
      
         setLoading(false);
        
       
-          setTimeout(
-            () => setError(""),
-            3000
-          );
+        
 
     
 

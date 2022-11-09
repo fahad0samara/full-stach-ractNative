@@ -5,14 +5,16 @@ import {StackActions} from "@react-navigation/native";
 import {useNavigation} from "@react-navigation/native";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-const UplodImage = ({route}) => {
+import { useLogIN } from "../ContextLog";
+const UplodImage = ({ route }) => {
+  const {setLog,profile, setProfile} = useLogIN();
   const {token} = route.params;
   const [profileImage, setProfileImage] = useState("");
   const [progress, setProgress] = useState(0);
 
   const [loading, isLoading] = useState();
 
-  const navigation = useNavigation();
+  const navigation = useNavigation(false);
 
   const openImageLibrary = async () => {
     const {status} = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -38,7 +40,8 @@ const UplodImage = ({route}) => {
     });
 
     try {
-      
+      isLoading(true);
+
       const res = await axios.post(
         "https://firstauth.azurewebsites.net/auth/upload",
 
@@ -49,31 +52,32 @@ const UplodImage = ({route}) => {
             "Content-Type": "multipart/form-data",
             authorization: `JWT ${token}`,
           },
-          onUploadProgress: ({ loaded, total }) => {
+          onUploadProgress: ({loaded, total}) => {
             console.log(loaded / total);
             setProgress(loaded / total);
-
-
-          }
-
+          },
         }
-            
-            
-            
-            
-            
-            
-            
-            
-             
-          
-        
       );
-    
+
       console.log(res.data);
-      navigation.dispatch(StackActions.replace("Home"));
-    } catch (error) {
+      setProfile(res.data.mango);
+      setProfile(res.data.post);
+      console.log('====================================');
+      console.log(res.data.post);
+      console.log('====================================');
+
+
+
       
+
+      isLoading(false);
+      setProfileImage("");
+      setProgress(0);
+      
+
+     
+      navigation.dispatch(StackActions.replace("TabNav"));
+    } catch (error) {
       console.log(error.data);
       console.log("====================================");
       console.log(error);
@@ -81,65 +85,88 @@ const UplodImage = ({route}) => {
     }
   };
 
-  return progress  ? (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#fff",
-      }}
-    >
-      <Progress.Circle
-        size={100}
-        indeterminate={true}
-        color="#745f9a"
-        borderWidth={0}
-        thickness={
-          4 // The thickness of the circle
-        }
-      />
-
-     
-    </View>
-  ) : (
-    <View style={styles.container}>
-      <View>
-        <TouchableOpacity
-          onPress={openImageLibrary}
-          style={styles.uploadBtnContainer}
-        >
-          {profileImage ? (
-            <Image
-              source={{uri: profileImage}}
-              style={{width: "100%", height: "100%"}}
-            />
-          ) : (
-            <Text style={styles.uploadBtn}>Upload Profile Image</Text>
-          )}
-        </TouchableOpacity>
-        <Text style={styles.skip}>Skip</Text>
-        {profileImage ? (
+  return (
+    <>
+      <View style={styles.container}>
+        <View>
+          {
+            // set the name
+          }
           <Text
-            onPress={uploadProfileImage}
-            style={[
-              styles.skip,
-              {backgroundColor: "red", color: "white", borderRadius: 8},
-            ]}
+            style={{
+              fontSize: 20,
+              fontWeight: "bold",
+              color: "#fff",
+            }}
           >
-            Upload
+            welcome
+     
           </Text>
-        ) : null}
+
+          <TouchableOpacity
+            onPress={openImageLibrary}
+            style={styles.uploadBtnContainer}
+          >
+            {profileImage ? (
+              <Image
+                source={{uri: profileImage}}
+                style={{width: "100%", height: "100%"}}
+              />
+            ) : (
+              <Text style={styles.uploadBtn}>Upload Profile Image</Text>
+            )}
+          </TouchableOpacity>
+          {profileImage ? (
+            <TouchableOpacity
+              onPress={uploadProfileImage}
+              style={[
+                styles.skip,
+                {
+                  backgroundColor: "#2e64e5",
+                  marginTop: 20,
+                  marginLeft: 20,
+                  width: "100%",
+                  alignItems: "center",
+                },
+              ]}
+            >
+              <Text>
+                {loading ? (
+                  <Progress.CircleSnail
+                    color={["red", "green", "blue"]}
+                    size={30}
+                    thickness={5}
+                    progress={progress}
+                  />
+                ) : (
+                  <Text
+                    style={{
+                      color: "white",
+                      fontSize: 18,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Upload
+                  </Text>
+                )}
+              </Text>
+            </TouchableOpacity>
+          ) : null}
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+
     alignItems: "center",
+    justifyContent: "center",
+   
+    backgroundColor: "#ccbee3",
+    
   },
   uploadBtnContainer: {
     height: 125,

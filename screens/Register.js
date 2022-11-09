@@ -16,6 +16,7 @@ import {useNavigation} from "@react-navigation/native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import APPloader from "./APPloader";
+import { useLogIN } from "../ContextLog";
 
 const Register = () => {
   const [email, setemail] = React.useState("");
@@ -23,6 +24,7 @@ const Register = () => {
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState();
+  const {setLog, profile, setProfile} = useLogIN();
 
   const navigation = useNavigation();
 
@@ -39,14 +41,13 @@ const Register = () => {
       setError("Please fill in all fields");
     } else {
       setLoading(true);
-
-      setLoading(true);
       const user = {name, email, password};
       try {
         const response = await axios.post(
           "https://firstauth.azurewebsites.net/auth/register",
           user
         );
+        setLoading(false);
   
           const SingIN = await axios.post(
             "https://firstauth.azurewebsites.net/auth/login",
@@ -65,13 +66,15 @@ const Register = () => {
           console.log("====================================");
           console.log(response.data);
 
-          setLoading(false);
+  
+        
+   
         }
        catch (error) {
         setLoading(false);
         console.log(error);
-        setError(error.response.data.message);
-        console.log(error.response.data);
+        setError(error.SingIN.data.message);
+      
 
         console.log(error.response.data.message, "2");
       }

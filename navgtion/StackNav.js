@@ -45,6 +45,11 @@ const StackNav = () => {
         component={Account}
         options={{headerShown: false}}
       />
+      <Stack.Screen
+        name="TabNav"
+        component={TabNav}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 }
