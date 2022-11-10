@@ -2,28 +2,63 @@ import {View, Text, TouchableOpacity, Image} from "react-native";
 import React, {useState} from "react";
 import {useLogIN} from "../ContextLog";
 import * as Progress from "react-native-progress";
-import { useEffect } from "react";
+import {useEffect} from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Setting = () => {
-  const {setLog, profile} = useLogIN();
+  const {setLog, profile, setLoading} = useLogIN();
   const [loading, setloading] = useState();
 
+  const logout = async () => {
+    setloading(true);
+    try {
+      const response = await axios.get(
+        "https://firstauth.azurewebsites.net/auth/sigh-out",
+        {
+          headers: {
+            Authorization: `Bearer ${await AsyncStorage.getItem("token")}`,
+          },
+        }
+      );
 
-  
-
-  console.log("====================================");
-  console.log(profile, "ggggggggg");
-  console.log("====================================");
+      await AsyncStorage.removeItem("token");
+      setloading(false);
+      setLog(false);
+      console.log("====================================");
+      console.log(response.data);
+      console.log("====================================");
+    } catch (error) {
+      setloading(false);
+      console.log("====================================");
+      console.log(error.response);
+      console.log("====================================");
+    }
+  };
 
   // sigh out
-  const sighOut = () => {
-            // "https://firstauth.azurewebsites.net/auth/signout",
- 
-
-  
-
-
-
+  const signOut = async () => {
+    setLoading(true);
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (token !== null) {
+        const response = await axios.get(
+          "https://firstauth.azurewebsites.net/auth/sigh-out",
+          {
+            headers: {
+              Authorization: `JWT ${token}`,
+            },
+          }
+        );
+        await AsyncStorage.removeItem("token");
+        setLog(false);
+        setLoading(false);
+      }
+    } catch (e) {
+      console.log(e);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     setloading(true);
@@ -49,8 +84,6 @@ const Setting = () => {
           color={["red", "green", "blue"]}
           size={30}
           thickness={5}
-
-       
         />
       ) : (
         <Image
@@ -72,8 +105,7 @@ const Setting = () => {
         style={{
           backgroundColor: "red",
         }}
-        onPress={sighOut}
-      
+        onPress={() => logout()}
       >
         <Text>Log Out</Text>
       </TouchableOpacity>

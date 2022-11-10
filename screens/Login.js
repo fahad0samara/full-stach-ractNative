@@ -11,21 +11,19 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-import { useNavigation } from "@react-navigation/native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import {useNavigation} from "@react-navigation/native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useLogIN } from "../ContextLog";
+import {useLogIN} from "../ContextLog";
 import APPloader from "./APPloader";
 
-const Login = ({ route }) => {
- 
-
+const Login = ({route}) => {
   const [email, setemail] = React.useState("");
   const [password, setpassword] = React.useState("");
   const [error, setError] = React.useState("");
   const [loading, setLoading] = React.useState(false);
   const {setLog, setProfile} = useLogIN();
-  
+
   const navigation = useNavigation();
 
   // Log IN
@@ -48,40 +46,22 @@ const Login = ({ route }) => {
           user
         );
         setLoading(false);
+
         setLog(true);
+
         setProfile(response.data.mango);
-
+        await AsyncStorage.setItem("token", response.data.token);
+        console.log("====================================");
+        console.log(response.data.token);
+        console.log("====================================");
       } catch (error) {
-        console.log(error.response);
-        setError(error.response)
-     
+        // console.log(error.response);
+        // setError(error.response);
+
         setLoading(false);
-       
-      
-        
-
-    
-
-        
-
-        
-       
       }
     }
   };
-
-  // React.useEffect(() => {
-  //   const check = async () => {
-  //     const token = await AsyncStorage.getItem("auth");
-  //     if (token) {
-  //       navigation.navigate("Account");
-  //     }
-  //   };
-  //   check();
-  // }, []);
-
-   
-
   return (
     // loading
 
@@ -120,6 +100,7 @@ const Login = ({ route }) => {
             marginTop: 20,
           }}
         >
+ 
           <TextInput
             style={{
               position: "absolute",
@@ -292,10 +273,9 @@ const Login = ({ route }) => {
           </View>
         ) : null}
       </View>
-      {   loading ?     <APPloader /> : null}
+      {loading ? <APPloader /> : null}
     </>
   );
-  
 };
 
 const styles = StyleSheet.create({

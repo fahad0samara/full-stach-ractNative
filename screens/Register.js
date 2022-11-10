@@ -55,7 +55,10 @@ const Register = () => {
               email,
               password,
             }
-          );
+        );
+        await AsyncStorage.setItem("token", SingIN.data.token);
+        
+        
           navigation.dispatch(
             StackActions.replace("UplodImage", {
               token: SingIN.data.token,
@@ -73,7 +76,7 @@ const Register = () => {
        catch (error) {
         setLoading(false);
         console.log(error);
-        setError(error.SingIN.data.message);
+         console.log(error.response.data,"4");
       
 
         console.log(error.response.data.message, "2");
