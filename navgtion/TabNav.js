@@ -28,7 +28,11 @@ const TabNav = () => {
           tabBarInactiveTintColor: "gray",
         })}
       >
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Home"
+          component={Home}
+          options={{ headerShown: false }}
+          
+           />
         <Tab.Screen name="Settings" component={Setting} />
       </Tab.Navigator>
     );

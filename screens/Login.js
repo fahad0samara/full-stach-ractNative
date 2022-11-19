@@ -42,7 +42,7 @@ const Login = ({route}) => {
       const user = {email, password};
       try {
         const response = await axios.post(
-          "https://firstauth.azurewebsites.net/auth/login",
+          "https://firstauth.azurewebsites.net",
           user
         );
         setLoading(false);

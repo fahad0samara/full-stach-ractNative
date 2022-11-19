@@ -30,6 +30,8 @@ const Register = () => {
 
   // Log IN
   const register = async () => {
+
+    
     //    "https://firstauth.azurewebsites.net/auth/login",
     if (
       // if the email not valid
